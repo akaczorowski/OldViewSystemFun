@@ -2,6 +2,7 @@ package pl.akac.android.oldviewsystemfun
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,6 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

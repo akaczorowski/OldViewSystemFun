@@ -37,12 +37,25 @@ android {
 
 dependencies {
 
+    // added go activity viewmodel() extension function
+    implementation(libs.androidx.activity.ktx)
+
+    // android dispatchers
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+
     // viewmodel
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.9.4")
     // coroutine scopes
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.4")
+
+    //rxjava3
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
+    implementation("io.reactivex.rxjava3:rxjava:3.1.5")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
