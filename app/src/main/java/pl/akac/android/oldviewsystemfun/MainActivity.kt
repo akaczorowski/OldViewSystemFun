@@ -10,15 +10,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import pl.akac.android.oldviewsystemfun.viewModels.Action
+import pl.akac.android.oldviewsystemfun.viewModels.LiveDataAndRxViewModel
 import pl.akac.android.oldviewsystemfun.viewModels.MainViewModel
 import pl.akac.android.oldviewsystemfun.viewModels.SideEffect
 import pl.akac.android.oldviewsystemfun.viewModels.UiState
@@ -27,11 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     // #### coroutines and flow VM
 
-    private val viewModel: MainViewModel by viewModels()
+//    private val viewModel: MainViewModel by viewModels()
     // #### coroutines and flow VM end
 
     // #### LiveData nad RxJava VM
-//    private val viewModel: LiveDataAndRxViewModel by viewModels()
+    private val viewModel: LiveDataAndRxViewModel by viewModels()
     // #### LiveData nad RxJava VM end
     private val disposables = CompositeDisposable()
 
@@ -71,21 +74,21 @@ class MainActivity : AppCompatActivity() {
         //###############################################################################
         // ### coroutines start
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.state.collect {
-                    submitList(it)
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.sideEffect.collect {
-                    handleSideEffect(it)
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED){
+//                viewModel.state.collect {
+//                    submitList(it)
+//                }
+//            }
+//        }
+//
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED){
+//                viewModel.sideEffect.collect {
+//                    handleSideEffect(it)
+//                }
+//            }
+//        }
 
         // ### coroutines end
 
@@ -93,14 +96,14 @@ class MainActivity : AppCompatActivity() {
         //############################################################################
         // ### livedata and RxJava start
 
-//        viewModel.state.observe(this, Observer {
-//            submitList(it)
-//        })
-//
-//        viewModel.sideEffect.observeOn(AndroidSchedulers.mainThread())
-//            .subscribe {
-//                handleSideEffect(it)
-//            }.addTo(disposables)
+        viewModel.state.observe(this, Observer {
+            submitList(it)
+        })
+
+        viewModel.sideEffect.observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                handleSideEffect(it)
+            }.addTo(disposables)
 
         // ### livedata and RxJava end
 
