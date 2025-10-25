@@ -10,12 +10,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 class MainViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            withContext(Dispatchers.Main.immediate){
+            withContext(Dispatchers.Main.immediate) {
 
             }
             delay(2000)
@@ -67,6 +68,23 @@ class MainViewModel : ViewModel() {
     private val _state = MutableStateFlow<UiState>(UiState())
     val state = _state.asStateFlow()
 
+    fun onAction(action: Action) {
+        when (action) {
+            Action.AddMoreItems -> {
+                val id = Random.nextInt(1000)
+                _state.value = _state.value.copy(
+                    list = listOf(
+                        Item(id = id, title = "new item id: $id"),
+                    ) + _state.value.list
+                )
+
+                viewModelScope.launch {
+                    _sideEffect.send(SideEffect.NotifyUserNewItemAdded)
+                }
+            }
+        }
+    }
+
 }
 
 data class UiState(
@@ -78,6 +96,10 @@ data class Item(
     val title: String,
 )
 
-sealed interface SideEffect{
-    data object ButtonClick
+sealed interface SideEffect {
+    data object NotifyUserNewItemAdded : SideEffect
+}
+
+sealed interface Action {
+    data object AddMoreItems : Action
 }

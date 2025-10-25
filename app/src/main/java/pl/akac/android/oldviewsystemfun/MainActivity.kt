@@ -1,6 +1,8 @@
 package pl.akac.android.oldviewsystemfun
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -52,6 +54,26 @@ class MainActivity : AppCompatActivity() {
                     itemAdapter.submitList(it.list)
                 }
             }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.sideEffect.collect {
+                    when (it){
+                        SideEffect.NotifyUserNewItemAdded -> {
+                            Toast.makeText(
+                                this@MainActivity, "Item Added!", Toast.LENGTH_SHORT
+                            ).show()
+
+                            recyclerView.smoothScrollToPosition(0)
+                        }
+                    }
+                }
+            }
+        }
+
+        findViewById<Button>(R.id.button).setOnClickListener {
+            viewModel.onAction(Action.AddMoreItems)
         }
     }
 }
