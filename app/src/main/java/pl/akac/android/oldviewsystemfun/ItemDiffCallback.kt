@@ -1,6 +1,7 @@
 package pl.akac.android.oldviewsystemfun
 
 import androidx.recyclerview.widget.DiffUtil
+import pl.akac.android.oldviewsystemfun.viewModels.Item
 
 class ItemDiffCallback : DiffUtil.ItemCallback<Item>() {
     override fun areItemsTheSame(

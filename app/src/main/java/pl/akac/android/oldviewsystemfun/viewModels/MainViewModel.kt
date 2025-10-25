@@ -1,4 +1,4 @@
-package pl.akac.android.oldviewsystemfun
+package pl.akac.android.oldviewsystemfun.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
+import pl.akac.android.oldviewsystemfun.viewModels.Item
 
 class ItemAdapter(val itemClickListener: (Item)->Unit) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
