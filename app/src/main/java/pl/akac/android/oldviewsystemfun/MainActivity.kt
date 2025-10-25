@@ -36,12 +36,15 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = itemAdapter
 
+        // #1
         val dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_drawable))
         recyclerView.addItemDecoration(dividerItemDecoration)
 
+        // #2
         recyclerView.addItemDecoration(OffsetDividerItemDecoration())
 
+//        recyclerView.itemAnimator = FadeItemAnimator()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
