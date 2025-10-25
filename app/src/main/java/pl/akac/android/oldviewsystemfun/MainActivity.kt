@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = itemAdapter
+        recyclerView.setHasFixedSize(true)
 
         // #1
         val dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
@@ -48,10 +49,14 @@ class MainActivity : AppCompatActivity() {
 
 //        recyclerView.itemAnimator = FadeItemAnimator()
 
+
+
+
+        // ### coroutines start
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collect {
-                    itemAdapter.submitList(it.list)
+                    submitList(it)
                 }
             }
         }
@@ -59,21 +64,32 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.sideEffect.collect {
-                    when (it){
-                        SideEffect.NotifyUserNewItemAdded -> {
-                            Toast.makeText(
-                                this@MainActivity, "Item Added!", Toast.LENGTH_SHORT
-                            ).show()
-
-                            recyclerView.smoothScrollToPosition(0)
-                        }
-                    }
+                    handleSideEffect(it)
                 }
             }
         }
+        // ### coroutines end
 
         findViewById<Button>(R.id.button).setOnClickListener {
             viewModel.onAction(Action.AddMoreItems)
+        }
+    }
+
+    private fun submitList(state: UiState) {
+        itemAdapter.submitList(state.list)
+    }
+
+    private fun handleSideEffect(
+        effect: SideEffect,
+    ) {
+        when (effect) {
+            SideEffect.NotifyUserNewItemAdded -> {
+                Toast.makeText(
+                    this@MainActivity, "Item Added!", Toast.LENGTH_SHORT
+                ).show()
+
+                findViewById<RecyclerView>(R.id.recyclerView).smoothScrollToPosition(0)
+            }
         }
     }
 }
