@@ -52,11 +52,11 @@ class MainViewModel : ViewModel() {
                     Item(id = 3, title = "item with data in it 3"),
                     Item(id = 4, title = "item with data in it 4"),
                     Item(id = 5, title = "item with data in it 5"),
-                    Item(id = 6, title = "item with data in it 7"),
-                    Item(id = 7, title = "item with data in it 8"),
-                    Item(id = 8, title = "item with data in it 9"),
-                    Item(id = 9, title = "item with data in it 10"),
-                    Item(id = 10, title = "item with data in it 11"),
+                    Item(id = 6, title = "item with data in it 6"),
+                    Item(id = 7, title = "item with data in it 7"),
+                    Item(id = 8, title = "item with data in it 8"),
+                    Item(id = 9, title = "item with data in it 9"),
+                    Item(id = 10, title = "item with data in it 10"),
                 )
             )
         }
