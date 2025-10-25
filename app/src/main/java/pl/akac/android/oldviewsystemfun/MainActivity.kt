@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     // #### coroutines and flow VM
 
-//    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     // #### coroutines and flow VM end
 
     // #### LiveData nad RxJava VM
-    private val viewModel: LiveDataAndRxViewModel by viewModels()
+//    private val viewModel: LiveDataAndRxViewModel by viewModels()
     // #### LiveData nad RxJava VM end
     private val disposables = CompositeDisposable()
 
@@ -74,21 +74,21 @@ class MainActivity : AppCompatActivity() {
         //###############################################################################
         // ### coroutines start
 
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED){
-//                viewModel.state.collect {
-//                    submitList(it)
-//                }
-//            }
-//        }
-//
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED){
-//                viewModel.sideEffect.collect {
-//                    handleSideEffect(it)
-//                }
-//            }
-//        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.state.collect {
+                    submitList(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.sideEffect.collect {
+                    handleSideEffect(it)
+                }
+            }
+        }
 
         // ### coroutines end
 
@@ -96,14 +96,14 @@ class MainActivity : AppCompatActivity() {
         //############################################################################
         // ### livedata and RxJava start
 
-        viewModel.state.observe(this, Observer {
-            submitList(it)
-        })
-
-        viewModel.sideEffect.observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                handleSideEffect(it)
-            }.addTo(disposables)
+//        viewModel.state.observe(this, Observer {
+//            submitList(it)
+//        })
+//
+//        viewModel.sideEffect.observeOn(AndroidSchedulers.mainThread())
+//            .subscribe {
+//                handleSideEffect(it)
+//            }.addTo(disposables)
 
         // ### livedata and RxJava end
 
