@@ -82,6 +82,10 @@ class MainViewModel : ViewModel() {
                     _sideEffect.send(SideEffect.NotifyUserNewItemAdded)
                 }
             }
+
+            is Action.ItemClick -> viewModelScope.launch {
+                _sideEffect.send(SideEffect.ItemClicked(action.data))
+            }
         }
     }
 
@@ -97,9 +101,12 @@ data class Item(
 )
 
 sealed interface SideEffect {
+    data class ItemClicked(val data: Item): SideEffect
+
     data object NotifyUserNewItemAdded : SideEffect
 }
 
 sealed interface Action {
     data object AddMoreItems : Action
+    data class ItemClick(val data: Item) : Action
 }

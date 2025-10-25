@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter(val itemClickListener: (Item)->Unit) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     private val diffCallback = ItemDiffCallback()
     private val asyncDiffer = AsyncListDiffer<Item>(this, diffCallback)
@@ -37,6 +37,10 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
         val data = asyncDiffer.currentList[position]
 
         holder.title.text = data.title
+        holder.itemView.setOnClickListener {
+            val itemData = asyncDiffer.currentList[holder.bindingAdapterPosition]
+            itemClickListener(itemData)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

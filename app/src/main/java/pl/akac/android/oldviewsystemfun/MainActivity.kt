@@ -32,7 +32,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        itemAdapter = ItemAdapter()
+        itemAdapter = ItemAdapter(itemClickListener = {
+            viewModel.onAction(Action.ItemClick(it))
+        })
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -90,6 +92,10 @@ class MainActivity : AppCompatActivity() {
 
                 findViewById<RecyclerView>(R.id.recyclerView).smoothScrollToPosition(0)
             }
+
+            is SideEffect.ItemClicked -> Toast.makeText(
+                this@MainActivity, "id: ${effect.data.id}, data: ${effect.data.title}", Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
