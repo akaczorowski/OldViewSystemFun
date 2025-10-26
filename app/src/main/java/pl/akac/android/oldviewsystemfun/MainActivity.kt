@@ -24,9 +24,12 @@ import pl.akac.android.oldviewsystemfun.viewModels.Action
 import pl.akac.android.oldviewsystemfun.viewModels.LiveDataAndRxViewModel
 import pl.akac.android.oldviewsystemfun.viewModels.MainViewModel
 import pl.akac.android.oldviewsystemfun.viewModels.SideEffect
+import pl.akac.android.oldviewsystemfun.viewModels.ThreadTestViewModel
 import pl.akac.android.oldviewsystemfun.viewModels.UiState
 
 class MainActivity : AppCompatActivity() {
+
+    private val threadTestViewModel: ThreadTestViewModel by viewModels()
 
     // #### coroutines and flow VM
 
@@ -110,6 +113,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             viewModel.onAction(Action.AddMoreItems)
         }
+
+        // just to start it init() (lazy property)
+        threadTestViewModel
     }
 
     override fun onDestroy() {

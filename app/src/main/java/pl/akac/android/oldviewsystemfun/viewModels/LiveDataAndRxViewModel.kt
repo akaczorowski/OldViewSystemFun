@@ -10,6 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+// https://developer.android.com/topic/libraries/architecture/livedata#livedata-in-architecture
 class LiveDataAndRxViewModel: ViewModel() {
 
 
