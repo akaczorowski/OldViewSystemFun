@@ -8,6 +8,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
+
+//GUIDES:
+// https://developer.android.com/kotlin/coroutines/test#inject-scope
+// https://developer.android.com/kotlin/flow/test
 class MainViewModelTest {
 
 

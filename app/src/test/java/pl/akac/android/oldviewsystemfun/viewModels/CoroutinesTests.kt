@@ -17,6 +17,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
+// GUIDES:
+// https://developer.android.com/kotlin/flow/test
 @OptIn(ExperimentalCoroutinesApi::class)
 class CoroutinesTests {
 
