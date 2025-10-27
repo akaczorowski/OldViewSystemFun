@@ -1,20 +1,37 @@
 package pl.akac.android.oldviewsystemfun.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 class MainViewModel : ViewModel() {
 
+    val testScope = CoroutineScope(Dispatchers.Main + SupervisorJob() + CoroutineExceptionHandler { _, throwable -> Log.e("##Error", "${throwable.stackTraceToString()}") })
+
     init {
+        viewModelScope.launch {
+            testScope.launch {
+                delay(5000)
+                throw IllegalStateException()
+            }
+        }
+
         viewModelScope.launch {
             withContext(Dispatchers.Main.immediate) {
 
@@ -86,6 +103,13 @@ class MainViewModel : ViewModel() {
             is Action.ItemClick -> viewModelScope.launch {
                 _sideEffect.send(SideEffect.ItemClicked(action.data))
             }
+        }
+    }
+
+    private suspend fun test(){
+        coroutineScope {
+            if(isActive) 1 else return@coroutineScope
+            ensureActive()
         }
     }
 

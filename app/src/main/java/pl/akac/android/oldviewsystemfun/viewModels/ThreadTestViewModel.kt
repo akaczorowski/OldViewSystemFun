@@ -5,17 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.sync.withPermit
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 class ThreadTestViewModel : ViewModel() {
 
-    private val counter = Counter5()
+    private val counter = Counter6()
 
     init {
 
@@ -139,6 +139,26 @@ class Counter5 {
     fun getCount(): Int = count
 }
 
+class Counter6 {
+
+    private val lock = Mutex()
+
+    @Volatile
+    private var count = 0
+
+    suspend fun increment() {
+        lock.withLock {
+            count++
+        }
+    }
+
+    fun reset() {
+        count = 0
+    }
+
+    fun getCount(): Int = count
+}
+
 //class Counter6 {
 //
 //    private val lock = CountDownLatch(1)
@@ -158,3 +178,5 @@ class Counter5 {
 //
 //    fun getCount(): Int = count
 //}
+
+// CyclicBarrier
