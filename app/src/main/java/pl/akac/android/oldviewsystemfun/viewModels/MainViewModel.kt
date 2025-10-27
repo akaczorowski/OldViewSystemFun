@@ -7,7 +7,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -22,7 +21,13 @@ import kotlin.random.Random
 
 class MainViewModel : ViewModel() {
 
-    val testScope = CoroutineScope(Dispatchers.Main + SupervisorJob() + CoroutineExceptionHandler { _, throwable -> Log.e("##Error", "${throwable.stackTraceToString()}") })
+    val testScope =
+        CoroutineScope(Dispatchers.Main + SupervisorJob() + CoroutineExceptionHandler { _, throwable ->
+            Log.e(
+                "##Error",
+                "${throwable.stackTraceToString()}"
+            )
+        })
 
     init {
         viewModelScope.launch {
@@ -106,9 +111,9 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private suspend fun test(){
+    private suspend fun test() {
         coroutineScope {
-            if(isActive) 1 else return@coroutineScope
+            if (isActive) 1 else return@coroutineScope
             ensureActive()
         }
     }
@@ -125,7 +130,7 @@ data class Item(
 )
 
 sealed interface SideEffect {
-    data class ItemClicked(val data: Item): SideEffect
+    data class ItemClicked(val data: Item) : SideEffect
 
     data object NotifyUserNewItemAdded : SideEffect
 }
