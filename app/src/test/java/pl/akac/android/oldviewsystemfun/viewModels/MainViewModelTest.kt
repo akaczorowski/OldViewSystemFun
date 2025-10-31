@@ -33,7 +33,7 @@ class MainViewModelTest {
         runTest { // uses the same scheduler as test rule, but differentDispatcher, default is StandardTestDispatcher for runTest
             val sut = MainViewModel()
 
-            advanceUntilIdle() // StandardTestDispatcher is uses so we need this to run scheduled coroutines in MainViewModel
+            advanceUntilIdle() // StandardTestDispatcher is used so we need this to run scheduled coroutines in MainViewModel
             sut.state.test {
                 assertEquals(10, awaitItem().list.size)
             }
